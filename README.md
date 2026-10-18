@@ -1,4 +1,4 @@
-# dsh-github-auth
+# dsh-liao-github
 
 在 DSH 插件页面与设置页面中管理本机 GitHub CLI 授权。优先复用已安装的 `gh`；首次缺少工具时可一键准备。不会另存令牌，也不会把完整令牌传给界面。
 
@@ -40,7 +40,7 @@
 将插件加入 DSH profile，然后在插件页面准备工具并登录。宿主使用 Node 18 或更新版本，无额外运行时 npm 依赖。
 
 ```sh
-dsh plugin --profile desktop add github:oliblue-evan/dsh-github-auth
+dsh plugin --profile desktop add github:oliblue-evan/dsh-liao-github
 ```
 
 打开「插件 → GitHub 授权」即可使用；「设置 → GitHub 授权」提供相同界面。

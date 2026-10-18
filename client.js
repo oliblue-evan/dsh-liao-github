@@ -1,5 +1,5 @@
 window.__ModuleLoader__.load({
-  id: 'dsh-github-auth',
+  id: 'dsh-liao-github',
   factory(require) {
     const React = require('react');
     const h = React.createElement;
@@ -269,7 +269,7 @@ window.__ModuleLoader__.load({
         ctx.effect(installStyles, 'github-auth: styles');
         ctx.effect(() => ctx.slots.inject('settings.section', () => ctx.slots.register({ name: 'settings.section', id: 'github-auth', order: 35,
           label: () => 'GitHub 授权' }, GitHubSection)), 'github-auth: settings page');
-        ctx.effect(() => ctx.slots.inject('plugins.bundle.config', () => ctx.slots.register({ name: 'plugins.bundle.config', key: 'dsh-github-auth' }, GitHubSection)), 'github-auth: plugin page');
+        ctx.effect(() => ctx.slots.inject('plugins.bundle.config', () => ctx.slots.register({ name: 'plugins.bundle.config', key: 'dsh-liao-github' }, GitHubSection)), 'github-auth: plugin page');
       },
     };
   },

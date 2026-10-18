@@ -1,5 +1,5 @@
 {
-  "name": "dsh-github-auth",
+  "name": "dsh-liao-github",
   "version": "0.3.0",
   "type": "module",
   "main": "./index.js",
@@ -67,7 +67,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/oliblue-evan/dsh-github-auth.git"
+    "url": "git+https://github.com/oliblue-evan/dsh-liao-github.git"
   },
   "author": "李敖 (oliblue)",
   "engines": {
