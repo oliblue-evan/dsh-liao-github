@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "policy": "dsh-plugin-naming/v1",
+  "plugin": {
+    "namespace": "liao",
+    "name": "github",
+    "coordinate": "liao/github",
+    "packageName": "dsh-liao-github"
+  },
+  "names": {
+    "pluginNames": [
+      "github-auth"
+    ],
+    "loaderIds": [
+      "github-auth"
+    ],
+    "services": [],
+    "tools": [],
+    "commands": [],
+    "skills": [],
+    "skillProviders": [],
+    "events": [],
+    "settingsNamespaces": [],
+    "routes": [
+      {
+        "kind": "exact",
+        "path": "/api/github-auth"
+      }
+    ]
+  }
+}

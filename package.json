@@ -1,6 +1,6 @@
 {
   "name": "dsh-liao-github",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "type": "module",
   "main": "./index.js",
   "description": "一键准备工具并登录 GitHub；管理账号、权限与本机退出，检查 SSH 和仓库访问。",
@@ -21,7 +21,8 @@
     "assets",
     "cordis.patch.yml",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "dsh-plugin.naming.json"
   ],
   "dsh": {
     "bundle": {
@@ -40,9 +41,17 @@
     "test": "node --test test/*.test.mjs"
   },
   "devDependencies": {
+    "@deepseek-ai/dsh-client-locale": ">=0.2.1-rc.2 <0.3.0-0",
+    "@deepseek-ai/dsh-client-ui-plugin-manager": ">=0.2.1-rc.2 <0.3.0-0",
+    "@deepseek-ai/dsh-client-ui-settings": ">=0.2.1-rc.2 <0.3.0-0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "jsdom": "^30.1.2"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-client-locale": ">=0.2.1-rc.2 <0.3.0-0",
+    "@deepseek-ai/dsh-client-ui-plugin-manager": ">=0.2.1-rc.2 <0.3.0-0",
+    "@deepseek-ai/dsh-client-ui-settings": ">=0.2.1-rc.2 <0.3.0-0"
   },
   "disclosure": {
     "cloud": true,
@@ -71,6 +80,7 @@
   },
   "author": "李敖 (oliblue)",
   "engines": {
+    "dsh": ">=0.2.1-rc.2 <0.3.0-0",
     "node": ">=18"
   }
 }
