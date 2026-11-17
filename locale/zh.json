@@ -1,6 +1,7 @@
 {
   "meta": {
     "title": "GitHub 授权",
-    "description": "一键准备工具并登录 GitHub；管理账号、权限与本机退出，检查 SSH 和仓库访问。"
+    "description": "一键准备工具并登录 GitHub；管理账号、权限与本机退出，检查 SSH 和仓库访问。",
+    "detail": "docs/detail.zh.md"
   }
 }

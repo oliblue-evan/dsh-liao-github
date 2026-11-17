@@ -1,6 +1,7 @@
 {
   "meta": {
     "title": "GitHub Authorization",
-    "description": "Prepare GitHub CLI with one click, sign in and manage local accounts and scopes; check SSH identity and repository access."
+    "description": "Prepare GitHub CLI with one click, sign in and manage local accounts and scopes; check SSH identity and repository access.",
+    "detail": "docs/detail.en.md"
   }
 }
