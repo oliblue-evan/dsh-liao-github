@@ -6,7 +6,10 @@ window.__ModuleLoader__.load({
     const { useState, useEffect, useLayoutEffect, useRef } = React;
     const API = '/api/github-auth';
     const STYLE = `
-.ga-root{--ga-accent:var(--dsw-alias-label-link,#819cfa);--ga-secondary:var(--dsw-alias-label-secondary,#bec1c8);--ga-muted:var(--dsw-alias-label-tertiary,#9298a1);--ga-line:var(--dsw-alias-border-l2,rgba(127,127,127,.22));max-width:820px;display:flex;flex-direction:column;gap:14px;color:var(--dsw-alias-label-primary,#eee);font:inherit;font-size:13px;line-height:1.5}
+.ga-root{--ga-accent:var(--dsw-alias-label-link,#819cfa);--ga-secondary:var(--dsw-alias-label-secondary,#bec1c8);--ga-muted:var(--dsw-alias-label-tertiary,#9298a1);--ga-line:var(--dsw-alias-border-l2,rgba(127,127,127,.22));width:100%;height:100%;min-height:0;overflow-y:auto;box-sizing:border-box;padding:14px 16px 16px;display:flex;flex-direction:column;gap:12px;color:var(--dsw-alias-label-primary,#eee);font:inherit;font-size:13px;line-height:1.5}
+.ga-root[data-ga-surface=panel]{background:var(--dsw-alias-bg-base,transparent);border-radius:0}
+.ga-root[data-ga-surface=settings]{max-width:820px;height:auto;overflow:visible;padding:0}
+.ga-root>.ga-head{position:sticky;top:0;z-index:2;background:inherit;padding-bottom:4px}
 .ga-root *{box-sizing:border-box}.ga-root h2,.ga-root h3,.ga-root p{margin:0}.ga-root h2{font-size:17px;font-weight:600;letter-spacing:-.02em}.ga-root h3{font-size:13px;font-weight:600}.ga-root .ga-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.ga-root .ga-description{font-size:12px;color:var(--ga-muted);margin-top:3px}.ga-root .ga-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .ga-root button,.ga-root .ga-link{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:6px 10px;min-height:32px;border-radius:7px;background:transparent;border:1px solid var(--ga-line);font:inherit;font-size:12px;color:var(--ga-secondary);cursor:pointer;text-decoration:none;transition:background .12s ease,color .12s ease}.ga-root button:hover,.ga-root .ga-link:hover{background:var(--dsw-alias-interactive-bg-hover,rgba(127,127,127,.12));color:var(--dsw-alias-label-primary,#eee)}.ga-root button:disabled{opacity:.45;cursor:default}.ga-root button:focus-visible,.ga-root a:focus-visible,.ga-root input:focus-visible,.ga-root summary:focus-visible{outline:2px solid var(--ga-accent);outline-offset:2px}
 .ga-root .ga-primary{background:color-mix(in srgb,var(--ga-accent) 14%,transparent);border-color:color-mix(in srgb,var(--ga-accent) 30%,transparent);color:var(--ga-accent)}.ga-root .ga-primary:hover{background:color-mix(in srgb,var(--ga-accent) 23%,transparent);color:var(--ga-accent)}.ga-root .ga-quiet{border-color:transparent}.ga-root .ga-danger{color:var(--dsw-alias-state-error-primary,#ef9292);border-color:transparent}.ga-root .ga-danger:hover{color:var(--dsw-alias-state-error-primary,#ef9292);background:var(--dsw-alias-interactive-bg-hover-danger,rgba(230,100,100,.1))}.ga-root .ga-icon{width:15px;height:15px;flex:none;pointer-events:none}.ga-root .ga-spinning{animation:ga-spin 1s linear infinite}@keyframes ga-spin{to{transform:rotate(360deg)}}
@@ -51,7 +54,7 @@ window.__ModuleLoader__.load({
       return h('button', { type: 'button', onClick: action, ...attributes }, name ? icon(name, spinning ? 'ga-spinning' : '') : null, h('span', null, label));
     };
 
-    function GitHubSection() {
+    function GitHubSection({ surface = 'settings' }) {
       useLayoutEffect(installStyles, []);
       const [state, setState] = useState(null);
       const [loading, setLoading] = useState(true);
@@ -199,7 +202,7 @@ window.__ModuleLoader__.load({
           button(actionBusy ? '处理中…' : confirm.action === 'logout' ? '确认退出本机' : confirm.action === 'login' ? '开始网页授权' : '确认切换', () => act({ ...confirm, confirmed: true }),
             { className: confirm.action === 'logout' ? 'ga-danger' : 'ga-primary', disabled: actionBusy, icon: actionBusy ? 'refresh' : undefined, spinning: actionBusy }))) : null;
 
-      return h('div', { className: 'ga-root', ref: rootRef },
+      return h('div', { className: 'ga-root', 'data-ga-surface': surface, ref: rootRef },
         h('header', { className: 'ga-head' },
           h('div', null, h('h2', null, '授权概览'), h('p', { className: 'ga-description' }, active ? '当前账号 · ' + active.login : '管理本机 GitHub 账号与连接')),
           h('div', { className: 'ga-tools' },
@@ -263,12 +266,36 @@ window.__ModuleLoader__.load({
               h('p', { className: 'ga-diagnostics' }, state.ghVersion + ' · ' + state.ghPath),
               h('p', { className: 'ga-diagnostics' }, '凭据由 gh 管理，插件不展示完整令牌、不接收密码、不自动上传 SSH 密钥。'))) : null) : null);
     }
+    /**
+     * 侧栏入口图标。与面板同 id，宿主据此标记选中态。
+     * 按宿主内置图标的画法走：16 画布、1.5 描边、四周留白约 2，几何线框而不是
+     * 整块实心品牌标 —— 与「插件 / 智能便签 / 更多」并排时视觉重量才一致。
+     */
+    function GitHubPanelIcon({ size }) {
+      return h('svg', {
+        'data-dsh-panel-entry': 'github-auth', viewBox: '0 0 16 16',
+        width: size, height: size, fill: 'none', stroke: 'currentColor',
+        strokeWidth: 1.5, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': true,
+      },
+      h('rect', { x: 1.75, y: 2.25, width: 12.5, height: 11.5, rx: 2 }),
+      h('path', { d: 'M5 6.4v5.6' }),
+      h('path', { d: 'M11 6.4v1.4a1.9 1.9 0 0 1-1.9 1.9H5' }),
+      h('circle', { cx: 5, cy: 5.3, r: 1.05 }),
+      h('circle', { cx: 11, cy: 5.3, r: 1.05 }));
+    }
+
     return {
       inject: ['slots', 'locale'],
       apply(ctx) {
         ctx.effect(installStyles, 'github-auth: styles');
-        ctx.effect(() => ctx.slots.inject('settings.section', () => ctx.slots.register({ name: 'settings.section', id: 'github-auth', order: 35,
-          label: () => 'GitHub 授权' }, GitHubSection)), 'github-auth: settings page');
+        // 侧栏入口：图标 + 主区域面板，两者共用 id 'github-auth'。
+        ctx.effect(() => ctx.slots.inject('sidebar.panellist', () => ctx.slots.register({
+          name: 'sidebar.panellist', id: 'github-auth', order: 50, label: () => 'GitHub 授权',
+        }, GitHubPanelIcon)), 'github-auth: sidebar entry');
+        ctx.effect(() => ctx.slots.inject('main', () => ctx.slots.register({
+          name: 'main', key: 'github-auth',
+        }, () => h(GitHubSection, { surface: 'panel' }))), 'github-auth: sidebar panel');
+        // 插件管理页的配置卡片保留，便于在插件详情里直接进入。
         ctx.effect(() => ctx.slots.inject('plugins.bundle.config', () => ctx.slots.register({ name: 'plugins.bundle.config', key: 'dsh-liao-github' }, GitHubSection)), 'github-auth: plugin page');
       },
     };
